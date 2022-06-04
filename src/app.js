@@ -1,10 +1,10 @@
 const express = require('express')
 const app = express()
-const bill = require('./routes/bill')
-const order = require('./routes/order')
+const bills = require('./routes/bills')
+const drinks = require('./routes/drinks')
 
 app.use(express.json())
-app.use('/bill', bill);
-app.use('/', order);
+app.use('/bills', bills);
+app.use('/drinks', drinks);
 
 module.exports = app;
