@@ -19,14 +19,15 @@ const finishBill = async (req, res) => {
   const { billSeq } = req.params;
 
   // billSeq 가 유효한 값인지 check
-  const count = await Bill.checkBill(billSeq)
+  const exist = await Bill.checkBill(billSeq)
   
-  if (count < 1) {
+  if (!exist) {
     res.status(400).json({ message: '존재하지 않는 주문서 입니다' })
     return
   }
 
-  const bill = await Bill.finishBill(billSeq)
+  await Bill.finishBill(billSeq)
+  const bill = await Bill.getBill(billSeq)
 
   res.json(bill)
 }
@@ -36,9 +37,9 @@ const getOrders = async (req, res) => {
   const drinkSeq = req.query.drinkSeq
 
   // billSeq 가 유효한 값인지 check
-  const count = await Bill.checkBill(billSeq)
+  const exist = await Bill.checkBill(billSeq)
 
-  if (count < 1) {
+  if (!exist) {
     res.status(400).json({ message: '존재하지 않는 주문서 입니다' })
     return
   }
@@ -57,8 +58,8 @@ const addOrder = async (req, res) => {
   const { drinkSeq, nickname, drinkType, optionDescription } = req.body;
 
   // billSeq 가 유효한 값인지 check
-  const count = await Bill.checkBill(billSeq)
-  if (count < 1) {
+  const exist = await Bill.checkBill(billSeq)
+  if (!exist) {
     res.status(400).json({ message: '존재하지 않는 주문서 입니다' })
     return
   }
