@@ -1,17 +1,13 @@
-const db = require('../../../config/db')
+const Drink = require('../../models/Drink')
 
 const getDrinks = async (req, res) => {
-    const conn = await db.connection()
-    const [rows] = await conn.execute('SELECT * FROM drinks');
-
+    const rows = await Drink.getDrinks();
     res.json({ success: true, rows })
 }
 
 const addDrink = async (req, res) => {
-    const { drinkName } = req.body
-
-    const conn = await db.connection()
-    await conn.execute('INSERT INTO drinks(drinkName) VALUES (?)',[drinkName]);
+    const { drinkName } = req.body    
+    await Drink.addDrink(drinkName)
 
     res.json({ sccuess: true })
 }
