@@ -3,7 +3,8 @@ const db = require('../config/db')
 class Order {
     static async getAllOrders(billSeq) {
         const conn = await db.connection()
-        const [rows] = await conn.execute('SELECT drinkSeq, drinkType, count(*) cnt FROM orders where billSeq = ? group by drinkSeq, drinkType', [billSeq]);
+        const query = 'SELECT drinkSeq, drinkType, count(*) cnt FROM orders where billSeq = ? group by drinkSeq, drinkType'
+        const [rows] = await conn.execute(query, [billSeq]);
         return rows
     }
 
@@ -12,8 +13,6 @@ class Order {
         const [rows] = await conn.execute('SELECT * FROM orders where billSeq = ? and drinkSeq = ?', [billSeq, drinkSeq]);
         return rows
     }
-
-
 
     static async addOrder(billSeq, data) {
         const { drinkSeq, nickname, drinkType, optionDescription } = data;
