@@ -5,8 +5,8 @@ const route = express.Router();
 
 route.post('/', ctrl.createBill)
 route.patch('/:billSeq', ctrl.finishBill)
-route.get('/:billSeq', ctrl.getOrders)
-route.post('/:billSeq', ctrl.addOrder)
+route.get('/:billSeq/orders', ctrl.getOrders)
+route.post('/:billSeq/orders', ctrl.addOrder)
 
 
 

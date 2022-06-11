@@ -1,4 +1,5 @@
 const Bill = require('../../models/Bill')
+const Order = require('../../models/Order')
 
 const createBill = async (req, res) => {
   const {orderName, description, nickname} = req.body
@@ -9,29 +10,58 @@ const createBill = async (req, res) => {
     description
   }
 
-  await Bill.createBill(data)
+  const seq = await Bill.createBill(data)
 
-  res.json({ sccuess: true })
+  res.json({seq, ...data})
 }
 
 const finishBill = async (req, res) => {
   const { billSeq } = req.params;
 
-  await Bill.finishBill(billSeq)
+  // billSeq 가 유효한 값인지 check
+  const count = await Bill.checkBill(billSeq)
+  
+  if (count < 1) {
+    res.status(400).json({ message: '존재하지 않는 주문서 입니다' })
+    return
+  }
 
-  res.json({ sccuess: true })
+  const bill = await Bill.finishBill(billSeq)
+
+  res.json(bill)
 }
 
 const getOrders = async (req, res) => {
   const { billSeq } = req.params;
+  const drinkSeq = req.query.drinkSeq
 
-  const rows = await Bill.getOrders(billSeq, req.query.drinkSeq)
-  res.json({ success: true, rows})
+  // billSeq 가 유효한 값인지 check
+  const count = await Bill.checkBill(billSeq)
+
+  if (count < 1) {
+    res.status(400).json({ message: '존재하지 않는 주문서 입니다' })
+    return
+  }
+  
+  let orders
+  if (drinkSeq) {
+    orders = await Order.getDrinkOrders(billSeq, drinkSeq)
+  } else {
+    orders = await Order.getAllOrders(billSeq)
+  }
+  res.json(orders)
 }
 
 const addOrder = async (req, res) => {
   const { billSeq } = req.params;
   const { drinkSeq, nickname, drinkType, optionDescription } = req.body;
+
+  // billSeq 가 유효한 값인지 check
+  const count = await Bill.checkBill(billSeq)
+  if (count < 1) {
+    res.status(400).json({ message: '존재하지 않는 주문서 입니다' })
+    return
+  }
 
   const data = {
     drinkSeq,
@@ -40,8 +70,8 @@ const addOrder = async (req, res) => {
     optionDescription
   }
 
-  await Bill.addOrder(billSeq, data)
-  res.json({ success: true })
+  const seq = await Order.addOrder(billSeq, data)
+  res.json({ seq, ...data})
 }
 
 module.exports = {

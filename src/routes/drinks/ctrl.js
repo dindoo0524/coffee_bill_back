@@ -2,14 +2,16 @@ const Drink = require('../../models/Drink')
 
 const getDrinks = async (req, res) => {
     const rows = await Drink.getDrinks();
-    res.json({ success: true, rows })
+    res.json({ rows })
 }
 
 const addDrink = async (req, res) => {
     const { drinkName } = req.body    
-    await Drink.addDrink(drinkName)
+    const seq = await Drink.addDrink(drinkName)
 
-    res.json({ sccuess: true })
+    const data = {seq, drinkName}
+
+    res.json(data)
 }
 
 module.exports = {

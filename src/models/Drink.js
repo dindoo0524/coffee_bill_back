@@ -1,4 +1,4 @@
-const db = require('../../config/db')
+const db = require('../config/db')
 
 class Drink {
     static async getDrinks() {
@@ -9,7 +9,8 @@ class Drink {
 
     static async addDrink(drinkName) {
         const conn = await db.connection()
-        await conn.execute('INSERT INTO drinks(drinkName) VALUES (?)', [drinkName]);
+        const result = await conn.execute('INSERT INTO drinks(drinkName) VALUES (?)', [drinkName]);
+        return result[0].insertId
     }
 }
 
