@@ -26,6 +26,13 @@ class Bill {
         const [rows] = await conn.execute('SELECT * FROM bills where seq = ?', [billSeq])
         return rows
     }
+
+    static async checkAuth(billSeq, nickname) {
+        const conn = await db.connection()
+        const result = await conn.execute('SELECT count(*) cnt FROM bills where seq = ? and nickname = ?', [billSeq, nickname])
+        const count = result[0][0].cnt
+        return count > 0
+    }
 }
 
 module.exports = Bill

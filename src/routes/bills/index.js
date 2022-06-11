@@ -4,9 +4,9 @@ const ctrl = require('./ctrl');
 const route = express.Router();
 
 route.post('/', ctrl.createBill)
-route.patch('/:billSeq', ctrl.finishBill)
-route.get('/:billSeq/orders', ctrl.getOrders)
-route.post('/:billSeq/orders', ctrl.addOrder)
+route.patch('/:billSeq', ctrl.checkBill, ctrl.checkAuth, ctrl.finishBill)
+route.get('/:billSeq/orders', ctrl.checkBill, ctrl.getOrders)
+route.post('/:billSeq/orders', ctrl.checkBill, ctrl.addOrder)
 
 
 
