@@ -10,7 +10,12 @@ const createBill = async (req, res) => {
     description
   }
 
-  const seq = await Bill.createBill(data)
+  try {
+    const seq = await Bill.createBill(data)
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
 
   res.json({seq, ...data})
 }
@@ -18,23 +23,32 @@ const createBill = async (req, res) => {
 const finishBill = async (req, res) => {
   const { billSeq } = req.params;
 
-  await Bill.finishBill(billSeq)
-  const bill = await Bill.getBill(billSeq)
+  try {
+    await Bill.finishBill(billSeq)
+    const bill = await Bill.getBill(billSeq)
 
-  res.json(bill)
+    res.json(bill)
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 const getOrders = async (req, res) => {
   const { billSeq } = req.params;
   const { drinkSeq, drinkType } = req.query
   
-  let orders
-  if (drinkSeq) {
-    orders = await Order.getDrinkOrders(billSeq, drinkSeq, drinkType)
-  } else {
-    orders = await Order.getAllOrders(billSeq)
+  try {
+    let orders
+    if (drinkSeq) {
+      orders = await Order.getDrinkOrders(billSeq, drinkSeq, drinkType)
+    } else {
+      orders = await Order.getAllOrders(billSeq)
+    }
+    res.json(orders)
+  } catch (err) {
+    console.error(err)
+    next(err)
   }
-  res.json(orders)
 }
 
 const addOrder = async (req, res) => {
@@ -48,32 +62,48 @@ const addOrder = async (req, res) => {
     optionDescription
   }
 
-  const seq = await Order.addOrder(billSeq, data)
-  res.json({ seq, ...data})
+  try {
+    const seq = await Order.addOrder(billSeq, data)
+    res.json({ seq, ...data})
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
 }
 
 const checkBill = async (req, res, next) => {
   const { billSeq } = req.params
 
-  // billSeq 가 유효한 값인지 check
-  const exist = await Bill.checkBill(billSeq)
-  if (!exist) {
-    res.status(400).json({ message: 'Bill does not exist' })
-    return
+  try {
+    // billSeq 가 유효한 값인지 check
+    const exist = await Bill.checkBill(billSeq)
+    if (!exist) {
+      res.status(400).json({ message: 'Bill does not exist' })
+      return
+    }
+    next()
+  } catch (err) {
+    console.error(err)
+    next(err)
   }
-  next()
+
 }
 
 const checkAuth = async (req, res, next) => {
   const { billSeq } = req.params
   const { nickname } = req.body
 
-  const auth = await Bill.checkAuth(billSeq, nickname)
-  if (!auth) {
-    res.status(400).json({ message: 'Authentication failed ' })
-    return
+  try {
+    const auth = await Bill.checkAuth(billSeq, nickname)
+    if (!auth) {
+      res.status(400).json({ message: 'Authentication failed ' })
+      return
+    }
+    next()
+  } catch (err) {
+    console.error(err)
+    next(err)
   }
-  next()
 }
 
 module.exports = {
