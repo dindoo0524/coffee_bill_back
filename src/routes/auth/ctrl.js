@@ -17,6 +17,23 @@ const login = async (req, res) => {
   }
 }
 
+const signUp = async (req, res) => {
+  const { nickname, password } = req.body
+  
+  try {
+    const result = await Auth.signUp(nickname, password)
+    if (!result) {
+      res.status(400).json({ message: 'SignUp failed' })
+      return
+    }
+    res.json({ result })
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+}
+
 module.exports = {
-  login
+  login,
+  signUp
 }
