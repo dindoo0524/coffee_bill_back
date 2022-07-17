@@ -1,5 +1,38 @@
 const Bill = require('../../models/Bill')
-const Order = require('../../models/Order')
+
+const getBills = async (req, res) => {
+  try {
+    // const bills = await Bill.getBills()
+    // TODO: 임시 데이터 코드
+    const bills = [
+      {
+        seq: 1,
+        title: '개발팀 커피타임'
+      },
+      {
+        seq: 2,
+        title: '디자인팀 커피타임'
+      },
+      {
+        seq: 3,
+        title: '기획팀 커피타임'
+      },
+      {
+        seq: 4,
+        title: '마케팅팀 커피타임'
+      },
+      {
+        seq: 5,
+        title: '우리모두 커피타임'
+      }
+    ]
+
+    res.json(bills)
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+}
 
 const createBill = async (req, res) => {
   const {orderName, description, nickname} = req.body
@@ -30,44 +63,6 @@ const finishBill = async (req, res) => {
     res.json(bill)
   } catch (err) {
     console.error(err)
-  }
-}
-
-const getOrders = async (req, res) => {
-  const { billSeq } = req.params;
-  const { drinkSeq, drinkType } = req.query
-  
-  try {
-    let orders
-    if (drinkSeq) {
-      orders = await Order.getDrinkOrders(billSeq, drinkSeq, drinkType)
-    } else {
-      orders = await Order.getAllOrders(billSeq)
-    }
-    res.json(orders)
-  } catch (err) {
-    console.error(err)
-    next(err)
-  }
-}
-
-const addOrder = async (req, res) => {
-  const { billSeq } = req.params;
-  const { drinkSeq, nickname, drinkType, optionDescription } = req.body;
-
-  const data = {
-    drinkSeq,
-    nickname,
-    drinkType,
-    optionDescription
-  }
-
-  try {
-    const seq = await Order.addOrder(billSeq, data)
-    res.json({ seq, ...data})
-  } catch (err) {
-    console.error(err)
-    next(err)
   }
 }
 
@@ -107,10 +102,9 @@ const checkAuth = async (req, res, next) => {
 }
 
 module.exports = {
+  getBills,
   createBill,
   finishBill,
-  getOrders,
-  addOrder,
   checkBill,
   checkAuth
 }

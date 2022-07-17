@@ -6,7 +6,6 @@ const getDrinks = async (req, res) => {
     res.json({ rows })
   } catch (err) {
     console.error(err)
-    next(err)
   }
 }
 
@@ -19,7 +18,6 @@ const addDrink = async (req, res) => {
     res.json(data)
   } catch (err) {
     console.error(err)
-    next(err)
   }
 }
 

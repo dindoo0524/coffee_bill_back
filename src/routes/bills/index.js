@@ -1,12 +1,14 @@
 const express = require('express');
 const ctrl = require('./ctrl');
+const orderCtrl = require('./orders/ctrl');
 
 const route = express.Router();
 
-route.post('/', ctrl.createBill)
+route.get('/', ctrl.getBills) 
+route.post('/', ctrl.createBill) 
 route.patch('/:billSeq', ctrl.checkBill, ctrl.checkAuth, ctrl.finishBill)
-route.get('/:billSeq/orders', ctrl.checkBill, ctrl.getOrders)
-route.post('/:billSeq/orders', ctrl.checkBill, ctrl.addOrder)
+route.get('/:billSeq/orders', ctrl.checkBill, orderCtrl.getOrders)
+route.post('/:billSeq/orders', ctrl.checkBill, orderCtrl.addOrder)
 
 
 

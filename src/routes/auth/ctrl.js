@@ -1,4 +1,5 @@
-const Auth = require('../../models/Auth')
+const Auth = require('../../models/Auth');
+const jwt = require('../../modules/jwt');
 
 const login = async (req, res) => {
   const { nickname, password } = req.body
@@ -9,7 +10,9 @@ const login = async (req, res) => {
       res.status(400).json({ message: 'Login failed' })
       return
     }
-    res.status(200).json({ message: 'Login Success!' })
+    const token = jwt.sign(nickname)
+    res.status(200).json({ message: 'Login Success!', token })
+    
     // next()
   } catch (err) {
     console.error(err)

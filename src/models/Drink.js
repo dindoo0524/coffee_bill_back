@@ -8,6 +8,13 @@ class Drink {
         return rows
     }
 
+    static async searchDrinks(keyword) {
+        const conn = await db.connection()
+        const query = `SELECT * FROM drinks where drinkName LIKE '%?%'`
+        const [rows] = await conn.execute(query, [keyword]);
+        return rows
+    }
+
     static async addDrink(drinkName) {
         const conn = await db.connection()
         const query = 'INSERT INTO drinks(drinkName) VALUES (?)'
