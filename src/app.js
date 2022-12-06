@@ -5,8 +5,10 @@ let corsOption = {
     origin: 'http://localhost:4000',
     credentials: true
 } 
+const cookieParser = require('cookie-parser')
 
 app.use(cors(corsOption));
+app.use(cookieParser("SECRET"))
 
 const bills = require('./routes/bills')
 const drinks = require('./routes/drinks')

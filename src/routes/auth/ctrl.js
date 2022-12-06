@@ -1,6 +1,14 @@
 const Auth = require('../../models/Auth');
 const jwt = require('../../modules/jwt');
 
+// 쿠키 옵션 설정
+const cookieConfig = {
+  httpOnly: true, 
+  maxAge: 1000000,
+  sameSite: 'lax'
+  //signed: true 
+};
+
 const login = async (req, res) => {
   const { nickname, password } = req.body
   
@@ -11,6 +19,7 @@ const login = async (req, res) => {
       return
     }
     const token = jwt.sign(nickname)
+    res.cookie('token', token, { sameSite: 'none', secure: true });
     res.status(200).json({ message: 'Login Success!', token })
     
     // next()
