@@ -2,10 +2,10 @@ const db = require('../config/db')
 
 class Bill {
     static async createBill(data) {
-        const { orderName, description, nickname } = data;
-        const record = [ orderName, description, nickname ]
+        const { orderName, description, userId } = data;
+        const record = [orderName, description, userId]
         const conn = await db.connection()
-        const query = 'INSERT INTO bills (name, description, nickname) VALUES (?, ?, ?)'
+        const query = 'INSERT INTO bills (name, description, userId) VALUES (?, ?, ?)'
         const result = await conn.execute(query, record);
         return result[0].insertId
     }

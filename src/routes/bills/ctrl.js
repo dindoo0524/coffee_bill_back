@@ -3,29 +3,6 @@ const Bill = require('../../models/Bill')
 const getBills = async (req, res) => {
   try {
     const bills = await Bill.getBills()
-    // TODO: 임시 데이터 코드
-    // const bills = [
-    //   {
-    //     seq: 1,
-    //     title: '개발팀 커피타임'
-    //   },
-    //   {
-    //     seq: 2,
-    //     title: '디자인팀 커피타임'
-    //   },
-    //   {
-    //     seq: 3,
-    //     title: '기획팀 커피타임'
-    //   },
-    //   {
-    //     seq: 4,
-    //     title: '마케팅팀 커피타임'
-    //   },
-    //   {
-    //     seq: 5,
-    //     title: '우리모두 커피타임'
-    //   }
-    // ]
 
     res.json(bills)
   } catch (err) {
@@ -35,22 +12,34 @@ const getBills = async (req, res) => {
 }
 
 const createBill = async (req, res) => {
-  const {orderName, description, nickname} = req.body
+  const {orderName, description, userId} = req.body
 
   const data = {
-    nickname,
+    userId,
     orderName,
     description
   }
 
   try {
     const seq = await Bill.createBill(data)
+    res.json({seq, ...data})
   } catch (err) {
     console.error(err)
     next(err)
   }
+}
 
-  res.json({seq, ...data})
+const getBill = async (req, res) => {
+  const { billSeq } = req.params
+
+  try {
+    const bill = await Bill.getBill(billSeq)
+
+    res.json(bill)
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
 }
 
 const finishBill = async (req, res) => {
@@ -104,6 +93,7 @@ const checkAuth = async (req, res, next) => {
 module.exports = {
   getBills,
   createBill,
+  getBill,
   finishBill,
   checkBill,
   checkAuth

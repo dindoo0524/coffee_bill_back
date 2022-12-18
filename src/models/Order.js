@@ -3,10 +3,9 @@ const db = require('../config/db')
 class Order {
     static async getAllOrders(billSeq) {
         const conn = await db.connection()
-        const query = `SELECT o.drinkSeq, d.drinkName, o.drinkType, count(*) cnt FROM orders o
+        const query = `SELECT o.drinkSeq, d.drinkName, o.drinkType, o.optionDescription FROM orders o
                         JOIN drinks d ON o.drinkSeq = d.seq
-                        where o.billSeq = ?
-                        group by o.drinkSeq, o.drinkType`
+                        where o.billSeq = ?`
         const [rows] = await conn.execute(query, [billSeq]);
         return rows
     }
