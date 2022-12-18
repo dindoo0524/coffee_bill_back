@@ -38,6 +38,14 @@ class Bill {
         const count = result[0][0].cnt
         return count > 0
     }
+
+    // getBills : user쪽
+    static async getBills() {
+        const conn = await db.connection()
+        const query = 'SELECT * FROM bills'
+        const [rows] = await conn.execute(query)
+        return rows
+    }
 }
 
 module.exports = Bill

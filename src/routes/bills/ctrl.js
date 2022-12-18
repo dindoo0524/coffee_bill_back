@@ -2,30 +2,30 @@ const Bill = require('../../models/Bill')
 
 const getBills = async (req, res) => {
   try {
-    // const bills = await Bill.getBills()
+    const bills = await Bill.getBills()
     // TODO: 임시 데이터 코드
-    const bills = [
-      {
-        seq: 1,
-        title: '개발팀 커피타임'
-      },
-      {
-        seq: 2,
-        title: '디자인팀 커피타임'
-      },
-      {
-        seq: 3,
-        title: '기획팀 커피타임'
-      },
-      {
-        seq: 4,
-        title: '마케팅팀 커피타임'
-      },
-      {
-        seq: 5,
-        title: '우리모두 커피타임'
-      }
-    ]
+    // const bills = [
+    //   {
+    //     seq: 1,
+    //     title: '개발팀 커피타임'
+    //   },
+    //   {
+    //     seq: 2,
+    //     title: '디자인팀 커피타임'
+    //   },
+    //   {
+    //     seq: 3,
+    //     title: '기획팀 커피타임'
+    //   },
+    //   {
+    //     seq: 4,
+    //     title: '마케팅팀 커피타임'
+    //   },
+    //   {
+    //     seq: 5,
+    //     title: '우리모두 커피타임'
+    //   }
+    // ]
 
     res.json(bills)
   } catch (err) {

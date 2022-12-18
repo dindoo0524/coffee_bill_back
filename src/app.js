@@ -13,6 +13,7 @@ app.use(cookieParser("SECRET"))
 const bills = require('./routes/bills')
 const drinks = require('./routes/drinks')
 const auth = require('./routes/auth')
+const admin = require('./routes/admin')
 const { isLogin } = require('./middleware/auth');
 
 
@@ -20,6 +21,7 @@ app.use(express.json())
 app.use('/bills', isLogin, bills);
 app.use('/drinks', isLogin, drinks);
 app.use('/auth', auth);
+app.use('/admin/bills', admin);
 
 app.use(function(err, req, res, next) {
   console.error(err.stack);
