@@ -4,11 +4,11 @@ const orderCtrl = require('./orders/ctrl');
 
 const route = express.Router();
 
-route.get('/', ctrl.getBills) 
-route.post('/', ctrl.createBill) 
-route.patch('/:billSeq', ctrl.checkBill, ctrl.checkAuth, ctrl.finishBill)
-route.get('/:billSeq/orders', ctrl.checkBill, orderCtrl.getOrders)
-route.post('/:billSeq/orders', ctrl.checkBill, orderCtrl.addOrder)
+route.get('/', ctrl.getBills) // 전체 주문서 가져오기
+route.post('/', ctrl.createBill) // 주문서 생성하기
+route.patch('/:billSeq', ctrl.checkBill, ctrl.checkAuth, ctrl.finishBill) // 해당 주문서 마감 처리하기
+route.get('/:billSeq/orders', ctrl.checkBill, orderCtrl.getOrders) // 해당 주문서의 주문들 가져오기
+route.post('/:billSeq/orders', ctrl.checkBill, orderCtrl.addOrder) // 해당 주문서에 주문1건 추가하기
 
 
 
