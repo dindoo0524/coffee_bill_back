@@ -41,7 +41,7 @@ const signUp = async (req, res) => {
     res.json({ result })
   } catch (err) {
     console.error(err)
-    next(err)
+    // next(err)
   }
 }
 
