@@ -18,7 +18,7 @@ const { isLogin } = require('./middleware/auth');
 
 
 app.use(express.json())
-app.use('/bills', isLogin, bills);
+app.use('/bills', bills);
 app.use('/drinks', isLogin, drinks);
 app.use('/auth', auth);
 app.use('/admin/bills', admin);
