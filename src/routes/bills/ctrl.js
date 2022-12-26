@@ -1,6 +1,6 @@
 const Bill = require('../../models/Bill')
 
-const getBills = async (req, res) => {
+const getBills = async (req, res, next) => {
   try {
     const bills = await Bill.getBills()
 
@@ -11,7 +11,7 @@ const getBills = async (req, res) => {
   }
 }
 
-const createBill = async (req, res) => {
+const createBill = async (req, res, next) => {
   const {orderName, description, userId} = req.body
 
   const data = {
@@ -29,7 +29,7 @@ const createBill = async (req, res) => {
   }
 }
 
-const getBill = async (req, res) => {
+const getBill = async (req, res, next) => {
   const { billSeq } = req.params
 
   try {
