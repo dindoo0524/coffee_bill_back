@@ -6,15 +6,16 @@ let corsOption = {
     credentials: true
 } 
 const cookieParser = require('cookie-parser')
+require('dotenv').config();
 
 app.use(cors(corsOption));
 app.use(cookieParser("SECRET"))
 
-const bills = require('./routes/bills')
-const drinks = require('./routes/drinks')
-const auth = require('./routes/auth')
-const admin = require('./routes/admin')
-const { isLogin } = require('./middleware/auth');
+const bills = require('./src/routes/bills')
+const drinks = require('./src/routes/drinks')
+const auth = require('./src/routes/auth')
+const admin = require('./src/routes/admin')
+const { isLogin } = require('./src/middleware/auth');
 
 
 app.use(express.json())
