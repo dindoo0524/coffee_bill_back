@@ -9,9 +9,6 @@ const connection = async () =>
         database: 'coffee_bill'
     });
 
-    console.log(process.env.HOST, process.env.MYSQL_USER, process.env.MYSQL_PASSWORD)
-
-
 module.exports = {
     connection
 }
