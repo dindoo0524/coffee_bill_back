@@ -4,11 +4,12 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser')
 require('dotenv').config();
 
-let corsOption = {
-    origin: process.env.ORIGIN,
-    credentials: true
-} 
-app.use(cors(corsOption));
+// let corsOption = {
+//     origin: process.env.ORIGIN,
+//     credentials: true
+// } 
+// app.use(cors(corsOption));
+app.use(cors());
 app.use(cookieParser("SECRET"))
 
 const bills = require('./src/routes/bills')
